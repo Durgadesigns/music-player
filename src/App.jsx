@@ -66,6 +66,7 @@ function Home({ current, playing, onOpen, onToggle }) {
 }
 
 function NowPlaying({ track, playing, progress, liked, onBack, onToggle, onSkip, onLike }) {
+  const [pop, setPop] = useState(0)
   const pct = (progress / track.duration) * 100
   const upNext = tracks[(tracks.indexOf(track) + 1) % tracks.length]
 
@@ -87,8 +88,21 @@ function NowPlaying({ track, playing, progress, liked, onBack, onToggle, onSkip,
           <h1 className="np-title">{track.title}</h1>
           <p className="np-artist">{track.artist}</p>
         </div>
-        <button className={`icon-btn like ${liked ? 'on' : ''}`} aria-label="Like" onClick={onLike}>
-          <I.Heart filled={liked} />
+        <button
+          className={`icon-btn like ${liked ? 'on' : ''}`}
+          aria-label="Like"
+          onClick={() => { if (!liked) setPop((n) => n + 1); onLike() }}
+        >
+          <span key={pop} className={`heart ${pop > 0 && liked ? 'pop' : ''}`}>
+            <I.Heart filled={liked} />
+          </span>
+          {liked && pop > 0 && (
+            <span key={`burst-${pop}`} className="burst" aria-hidden="true">
+              {Array.from({ length: 8 }, (_, i) => (
+                <i key={i} style={{ '--a': `${i * 45 + (i % 2 ? 12 : 0)}deg`, '--d': `${22 + (i % 3) * 5}px` }} />
+              ))}
+            </span>
+          )}
         </button>
       </div>
 
