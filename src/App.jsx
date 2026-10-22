@@ -23,7 +23,7 @@ function Home({ current, playing, onOpen, onToggle }) {
         <section className="recent-grid">
           {tracks.map((t) => (
             <button key={t.id} className="recent-tile" onClick={() => onOpen(t)}>
-              <span className="recent-art" style={{ background: t.art }} />
+              <img className="recent-art" src={t.cover} alt="" />
               <span className="recent-title">{t.album}</span>
             </button>
           ))}
@@ -34,7 +34,8 @@ function Home({ current, playing, onOpen, onToggle }) {
           <div className="shelf-row">
             {mixes.map((m) => (
               <button key={m.id} className="mix-card" onClick={() => onOpen(tracks.find((t) => t.id === m.trackId))}>
-                <span className="mix-art" style={{ background: m.art }}>
+                <span className="mix-art">
+                  <img src={m.cover} alt="" />
                   <span className="mix-label">{m.title}</span>
                 </span>
                 <span className="mix-subtitle">{m.subtitle}</span>
@@ -45,7 +46,7 @@ function Home({ current, playing, onOpen, onToggle }) {
       </main>
 
       <div className="mini-player" onClick={() => onOpen(current)}>
-        <span className="mini-art" style={{ background: current.art }} />
+        <img className="mini-art" src={current.cover} alt="" />
         <span className="mini-meta">
           <span className="mini-title">{current.title}</span>
           <span className="mini-artist">{current.artist}</span>
@@ -69,7 +70,7 @@ function NowPlaying({ track, playing, progress, liked, onBack, onToggle, onSkip,
   const upNext = tracks[(tracks.indexOf(track) + 1) % tracks.length]
 
   return (
-    <div className="screen now-playing" style={{ '--art': track.art }}>
+    <div className="screen now-playing" style={{ '--tint': track.tint }}>
       <header className="np-header">
         <button className="icon-btn" aria-label="Close player" onClick={onBack}><I.ChevronDown /></button>
         <div className="np-context">
@@ -79,7 +80,7 @@ function NowPlaying({ track, playing, progress, liked, onBack, onToggle, onSkip,
         <button className="icon-btn" aria-label="More options"><I.More /></button>
       </header>
 
-      <div className="np-art" style={{ background: track.art }} />
+      <img className="np-art" src={track.cover} alt={`${track.album} cover`} />
 
       <div className="np-meta">
         <div>
@@ -117,7 +118,7 @@ function NowPlaying({ track, playing, progress, liked, onBack, onToggle, onSkip,
       <div className="up-next">
         <span className="up-next-label">Up next</span>
         <div className="up-next-row">
-          <span className="mini-art" style={{ background: upNext.art }} />
+          <img className="mini-art" src={upNext.cover} alt="" />
           <span className="mini-meta">
             <span className="mini-title">{upNext.title}</span>
             <span className="mini-artist">{upNext.artist}</span>
